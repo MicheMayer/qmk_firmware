@@ -1,0 +1,25 @@
+{
+    "name": "qmk_firmware",
+	"build": {
+		"context": "..",
+		"dockerfile": "./dockerfile"
+	},
+	"mounts": [
+		"source=${localWorkspaceFolder},target=/usr/local/qmk_firmware/,type=bind,consistency=cached"
+	],
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"git.path": "/usr/bin/git"
+			},
+			"extensions": [
+				"ms-vscode.cpptools",
+				"matepek.vscode-catch2-test-adapter",
+				"twxs.cmake",
+				"cheshirekow.cmake-format",
+				"spmeesseman.vscode-taskexplorer"
+			]
+		}
+	},
+  "workspaceFolder": "/usr/local/qmk_firmware"
+  }
