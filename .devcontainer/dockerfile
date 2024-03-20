@@ -5,6 +5,11 @@ RUN apt-get update && \
     apt-get upgrade -y
 RUN apt-get install -y git
 RUN apt-get install -y git python3-pip
+RUN apt-get install -y gcc-arm-none-eabi
+RUN apt-get install -y gcc-avr binutils-avr avr-libc gdb-avr avrdude
+RUN apt-get install -y avrdude
+RUN apt-get install -y dfu-programmer
+RUN apt-get install -y dfu-util
 
 RUN python3 -m pip install --user qmk
 
