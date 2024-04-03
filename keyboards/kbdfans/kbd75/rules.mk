@@ -1,1 +1,3 @@
-DEFAULT_FOLDER = kbdfans/kbd75/rev1
+DEFAULT_FOLDER = kbdfans/kbd75/rev2
+CAPS_WORD_ENABLE = yes
+RGBLIGHT_ENABLE = yes
