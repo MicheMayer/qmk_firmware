@@ -1,18 +1,19 @@
-FROM ubuntu:latest
+FROM debian:12
 
 RUN apt update
 RUN apt-get update && \
     apt-get upgrade -y
 RUN apt-get install -y git
-RUN apt-get install -y git python3-pip
+RUN apt-get install -y python3
+RUN apt-get install -y git pipx
 RUN apt-get install -y gcc-arm-none-eabi
 RUN apt-get install -y gcc-avr binutils-avr avr-libc gdb-avr avrdude
 RUN apt-get install -y avrdude
 RUN apt-get install -y dfu-programmer
 RUN apt-get install -y dfu-util
 
-RUN python3 -m pip install --user qmk
+RUN pipx install qmk
 
 SHELL ["/bin/bash", "--login", "-c"]
 
-RUN echo 'PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc && source $HOME/.bashrc
+RUN echo 'PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc && . $HOME/.bashrc
