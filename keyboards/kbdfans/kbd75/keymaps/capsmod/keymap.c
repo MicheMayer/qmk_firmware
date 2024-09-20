@@ -3,6 +3,12 @@
 
 #include QMK_KEYBOARD_H
 
+#define L_FUNCTION LT(_FUNCTION, KC_CAPSMOD)
+
+#define RGB_DEFAULT RGB_WHITE
+#define RBG_CAPS RGB_GOLD
+#define RGB_L_FUNCTION RGB_TEAL
+
 enum layer_names {
     _BASE,
     _FUNCTION,
@@ -11,12 +17,6 @@ enum layer_names {
 enum custom_keycodes {
   KC_CAPSMOD = KC_F13,
 };
-
-#define L_FUNCTION LT(_FUNCTION, KC_CAPSMOD)
-
-#define RGB_DEFAULT RGB_WHITE
-#define RBG_CAPS RGB_GOLD
-#define RGB_L_FUNCTION RGB_TEAL
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base layer
@@ -38,9 +38,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_PSCR, KC_PAUS, KC_DEL,
         KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,          KC_HOME,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,          KC_PGUP,
-        L_FUNCTION, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,           KC_PGDN,
+        L_FUNCTION, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,       KC_ENT,           KC_PGDN,
         KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT, KC_UP,   KC_END,
-        KC_LCTL, KC_LGUI, KC_LALT,                            KC_SPC,                             KC_RALT, KC_APP, KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+        KC_LCTL, KC_LGUI, KC_LALT,                            KC_SPC,                             KC_RALT,  KC_APP, KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
     ),
 
     /* Function layer
@@ -60,11 +60,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_FUNCTION] = LAYOUT_75_ansi(
         KC_SLEP, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,  KC_NO,  KC_NO, KC_NO, KC_NO,
-        KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,    KC_NO, KC_NO,  KC_NO,          KC_NO,
-        KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,    KC_NO, KC_NO, KC_NO,          KC_NO,
-        KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_MPRV,   KC_MPLY,    KC_MNXT, KC_NO, KC_NO,          KC_NO,           KC_NO,
-        KC_NO,        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_MUTE,   KC_NO, KC_NO,  KC_NO,          KC_NO, KC_VOLU,   KC_NO,
-        KC_NO, KC_NO, KC_NO,                            KC_NO,                             KC_NO, KC_NO, KC_NO, KC_MPRV, KC_VOLD, KC_MNXT
+        KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,    KC_NO, KC_NO,  KC_NO,        KC_NO,
+        KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,    KC_NO, KC_NO,  KC_NO,        KC_NO,
+        KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_MPRV,   KC_MPLY,    KC_MNXT, KC_NO, KC_NO,        KC_NO,        KC_NO,
+        KC_NO,        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_MUTE,   KC_NO, KC_NO,  KC_NO,         KC_NO, KC_VOLU,   KC_NO,
+        KC_NO, KC_NO, KC_NO,                            KC_NO,                               KC_NO, KC_NO, KC_NO, KC_MPRV, KC_VOLD, KC_MNXT
     ),
 };
 
@@ -122,3 +122,38 @@ void caps_word_set_user(bool active) {
         rgblight_setrgb(RGB_DEFAULT);
     }
 };
+
+enum combo_events {
+    COMBO_PUBLIC,
+    COMBO_PROTECTED,
+    COMBO_PRIVATE,
+    COMBO_INTERNAL,
+    COMBO_FUNCTION,
+};
+
+const uint16_t PROGMEM combo_public[] = {KC_P, KC_U, KC_B, COMBO_END};
+const uint16_t PROGMEM combo_protected[] = {KC_P, KC_R, KC_O, COMBO_END};
+const uint16_t PROGMEM combo_private[] = {KC_P, KC_R, KC_I, COMBO_END};
+const uint16_t PROGMEM combo_internal[] = {KC_I, KC_N, KC_T, COMBO_END};
+const uint16_t PROGMEM combo_function[] = {KC_F, KC_U, KC_N, COMBO_END};
+
+combo_t key_combos[] = {
+    [COMBO_PUBLIC] = COMBO_ACTION(combo_public),
+    [COMBO_PROTECTED] = COMBO_ACTION(combo_protected),
+    [COMBO_PRIVATE] = COMBO_ACTION(combo_private),
+    [COMBO_INTERNAL] = COMBO_ACTION(combo_internal),
+    [COMBO_FUNCTION] = COMBO_ACTION(combo_function),
+};
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    if (!pressed)
+        return;
+
+    switch(combo_index) {
+        case COMBO_PUBLIC: SEND_STRING("public"); break;
+        case COMBO_PROTECTED: SEND_STRING("protected"); break;
+        case COMBO_PRIVATE: SEND_STRING("private"); break;
+        case COMBO_INTERNAL: SEND_STRING("internal"); break;
+        case COMBO_FUNCTION: SEND_STRING("function"); break;
+    }
+}

@@ -10,6 +10,7 @@ RUN apt-get install -y gcc-avr binutils-avr avr-libc gdb-avr avrdude
 RUN apt-get install -y avrdude
 RUN apt-get install -y dfu-programmer
 RUN apt-get install -y dfu-util
+RUN apt-get install -y build-essential
 
 RUN python3 -m pip install --user qmk
 
