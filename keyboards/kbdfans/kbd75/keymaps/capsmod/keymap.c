@@ -5,9 +5,9 @@
 
 #define L_FUNCTION LT(_FUNCTION, KC_CAPSMOD)
 
-#define RGB_DEFAULT RGB_WHITE
-#define RBG_CAPS RGB_GOLD
-#define RGB_L_FUNCTION RGB_TEAL
+#define HSV_DEFAULT HSV_WHITE
+#define HSV_CAPS HSV_PINK
+#define HSV_L_FUNCTION HSV_TEAL
 
 enum layer_names {
     _BASE,
@@ -81,13 +81,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     caps_word_off(); // deactivate caps word if layer is changed
+    rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
 
     switch (get_highest_layer(state)) {
     case _FUNCTION:
-        rgblight_setrgb(RGB_L_FUNCTION);
+        rgblight_sethsv(HSV_L_FUNCTION);
         break;
     default: //  for any other layers, or the default layer
-        rgblight_setrgb(RGB_DEFAULT);
+        rgblight_sethsv(HSV_DEFAULT);
         break;
     }
   return state;
@@ -117,9 +118,11 @@ void caps_word_set_user(bool active) {
      uint8_t current_layer = get_highest_layer(layer_state);
 
     if (active) {
-        rgblight_setrgb(RBG_CAPS);
+        rgblight_sethsv(HSV_CAPS);
+        rgblight_mode(RGBLIGHT_MODE_KNIGHT + 2);
     } else if (current_layer == _BASE) { // only set to neutral color if not on a function layer
-        rgblight_setrgb(RGB_DEFAULT);
+        rgblight_sethsv(HSV_DEFAULT);
+        rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
     }
 };
 
@@ -129,6 +132,7 @@ enum combo_events {
     COMBO_PRIVATE,
     COMBO_INTERNAL,
     COMBO_FUNCTION,
+    COMBO_CLASS,
 };
 
 const uint16_t PROGMEM combo_public[] = {KC_P, KC_U, KC_B, COMBO_END};
@@ -136,6 +140,7 @@ const uint16_t PROGMEM combo_protected[] = {KC_P, KC_R, KC_O, COMBO_END};
 const uint16_t PROGMEM combo_private[] = {KC_P, KC_R, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_internal[] = {KC_I, KC_N, KC_T, COMBO_END};
 const uint16_t PROGMEM combo_function[] = {KC_F, KC_U, KC_N, COMBO_END};
+const uint16_t PROGMEM combo_class[] = {KC_C, KC_L, KC_S, COMBO_END};
 
 combo_t key_combos[] = {
     [COMBO_PUBLIC] = COMBO_ACTION(combo_public),
@@ -143,6 +148,7 @@ combo_t key_combos[] = {
     [COMBO_PRIVATE] = COMBO_ACTION(combo_private),
     [COMBO_INTERNAL] = COMBO_ACTION(combo_internal),
     [COMBO_FUNCTION] = COMBO_ACTION(combo_function),
+    [COMBO_CLASS] = COMBO_ACTION(combo_class),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -155,5 +161,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case COMBO_PRIVATE: SEND_STRING("private"); break;
         case COMBO_INTERNAL: SEND_STRING("internal"); break;
         case COMBO_FUNCTION: SEND_STRING("function"); break;
+        case COMBO_CLASS: SEND_STRING("class"); break;
     }
 }

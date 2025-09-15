@@ -12,7 +12,9 @@ RUN apt-get install -y dfu-programmer
 RUN apt-get install -y dfu-util
 RUN apt-get install -y build-essential
 
-RUN python3 -m pip install --user qmk
+RUN apt-get install -y pipx
+RUN pipx ensurepath
+RUN pipx install qmk
 
 SHELL ["/bin/bash", "--login", "-c"]
 
